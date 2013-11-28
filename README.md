@@ -1,7 +1,7 @@
-         __________
-        /_____/  u \                  The Grouper Social Club
-        \_____\____ \                 Cuttlefish Challenge
-                  \\\\\
+        __________
+       /_____/  u \            The Grouper Social Club
+       \_____\____ \           Cuttlefish Challenge
+                 \\\\\
 
 
 ## Cuttlefish Challenge
@@ -12,7 +12,15 @@ We've gotten pretty good at predicting friendships. Now, for the first time ever
 
 #### What's in this repo?
 
-This repo
+This repo contains two CSV files. Each row in the CSV has information for a pair of members that met each other on a grouper.
+
+`training_data.csv` has a sample of 3500 pairs. The final column is a boolean that's `TRUE` when the members became friends after their Grouper
+
+`test_data.csv` has a sample of 500 pairs. Your goal is to fill in the `members_became_friends` column as accurately as possible.
+
+#### How do I get started?
+
+Just submit a pull request with the filled in `test_data.csv` and the code that you used to get it.
 
 #### How do you define a friendship?
 

@@ -16,7 +16,7 @@ This repo contains two CSV files. Each row in the CSV has information for a pair
 
 `training_data.csv` has a sample of 3500 pairs. The final column is a boolean that's `TRUE` when the members became friends after their Grouper
 
-`test_data.csv` has a sample of 500 pairs. Your goal is to fill in the `members_became_friends` column as accurately as possible.
+`test_data.csv` has a sample of 500 pairs. Your goal is to fill in the empty `members_became_friends` column as accurately as possible.
 
 #### How do I get started?
 

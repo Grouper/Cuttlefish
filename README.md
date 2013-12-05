@@ -12,7 +12,7 @@ We've gotten pretty good at predicting friendships. Now, for the first time ever
 
 #### What's in this repo?
 
-This repo contains two CSV files. Each row in the CSV has information for a pair of members that met each other on a grouper.
+This repo contains two CSV files. Each row in the CSV has information for a pair of members that met each other on a grouper. Headers with labels are from our internal ratings and are intentionally mislabeled.
 
 `training_data.csv` has a sample of 3500 pairs. The final column is a boolean that's `TRUE` when the members became friends after their Grouper
 

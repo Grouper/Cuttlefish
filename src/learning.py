@@ -1,14 +1,9 @@
-import scipy
 from sklearn import svm
 from sklearn.svm import SVC
 from sklearn.linear_model import LogisticRegression
 from sklearn.tree import DecisionTreeClassifier
-import numpy
-from sklearn.feature_extraction.text import TfidfVectorizer, CountVectorizer
 from sklearn.feature_selection import SelectKBest, chi2
-from collections import defaultdict
 import csv
-import re
 import argparse
 RESULTS_FILE = "results.txt"
             

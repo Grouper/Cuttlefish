@@ -26,8 +26,8 @@ def get_precision_recall(labels, predictions):
                 tn += 1
             if predictions[i] == 1:
                 fp += 1
-    precision = float(tp) / (tp + fp)
-    recall = float(tp) / (tp + fn)
+    precision = float(tp) / (tp + fp) if tp + fp > 0 else 0
+    recall = float(tp) / (tp + fn) if tp + fn > 0 else 0
     return [precision, recall]
 
 def is_number(s):
@@ -68,7 +68,7 @@ def evaluate(predictions, labels, name):
     print "precision: " + str(precision)
     print "recall: " + str(recall)
 
-    F1 = (2.0 * precision * recall) / (precision + recall)
+    F1 = (2.0 * precision * recall) / (precision + recall) if precision + recall > 0 else 0
     print "F1: " + str(F1)
 
 def run_subset(trainComments, trainLabels, sampleSize):
@@ -88,10 +88,16 @@ def main(train_file, test_file):
 
     test_instances = get_test_data(test_file)
 
+    print "Creating SVM..."
     clf1 = svm.SVC(kernel='linear', probability=True)
+    print "Training algorithm using " + str(len(train_instances)) + " instances..."
     clf1.fit(train_instances, train_labels)
+    print "Predicting " + str(len(dev_instances)) + " new instances..."
     predictions = clf1.predict(dev_instances)
-    result_probs = clf1.predict_proba(dev_instances)
+    print "Generating probabilities for new instances..."
+    #result_probs = clf1.predict_proba(dev_instances)
+
+    print "Evaluating performance..."
     evaluate(predictions, dev_labels, "SVM")
     #print result_probs
 

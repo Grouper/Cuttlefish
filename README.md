@@ -12,7 +12,7 @@ We've gotten pretty good at predicting friendships. Now, for the first time ever
 
 #### What's in this repo?
 
-This repo contains two CSV files. Each row in the CSV has information for a pair of members that met each other on a grouper. Height is in inches and headers with asterisks are from our internal ratings and are intentionally mislabeled.
+This repo contains two CSV files. Each row in the CSV has information for a pair of members that met each other on a grouper. *Height is in inches and headers with asterisks are from our internal ratings and are intentionally mislabeled.*
 
 `training_data.csv` has a sample of 3500 pairs. The final column is a boolean that's `TRUE` when the members became friends after their Grouper
 
@@ -24,7 +24,7 @@ Just submit a pull request with the filled in `test_data.csv` and the code that 
 
 #### How do you define a friendship?
 
-For us to attribute a friendship to the Grouper, the two members must have become friends within 14 days of meeting each other on their grouper. All samples occurred at least 14 days ago. For simplicity, this challenge only includes male/female pairs. Approximately half of the members in both the training and test sets became friends afterwards.
+For us to attribute a friendship to the Grouper, the two members must have become friends within 14 days of meeting each other on their grouper. All samples occurred at least 14 days ago. For simplicity, this challenge only includes male/female pairs. *Approximately half of the members in both the training and test sets became friends afterwards.*
 
 All grouper members have been anonymized, and several fields have been renamed of course.
 

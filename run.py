@@ -31,7 +31,7 @@ def make_submission(clf, name):
 
 	# get input from testing set
 	lines = []
-	with open('test_data.csv', 'r') as f:
+	with open('original_testing.csv', 'r') as f:
 		lines = f.readlines()
 	header = lines.pop(0) # remove header line
 	assert len(lines) == len(predictions)

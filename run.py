@@ -1,6 +1,10 @@
 import numpy as np 
 from sklearn.cross_validation import train_test_split
 from sklearn.ensemble import RandomForestClassifier
+import os
+
+# clean files
+os.system("sh clean.sh")
 
 # TRUE => 1
 # FALSE => 2
@@ -22,8 +26,8 @@ def add_diff_col(matrix, cols):
 	return matrix
 
 # load data
-training = np.genfromtxt("training_clean.csv", delimiter=",",skip_header=1)
-testing = np.genfromtxt("test_clean.csv", delimiter=",",skip_header=1)
+training = np.genfromtxt("training_data.csv", delimiter=",",skip_header=1)
+testing = np.genfromtxt("test_data.csv", delimiter=",",skip_header=1)
 
 # split into training and testing
 n, d = training.shape
@@ -54,8 +58,7 @@ predictions = clf.predict(test_data)
 lines = []
 with open('test_data.csv', 'r') as f:
 	lines = f.readlines()
-lines.pop(0)
-lines.pop(-1)
+lines.pop(-1) # remove empty line
 assert len(lines) == len(predictions)
 
 # write the predictions to disk

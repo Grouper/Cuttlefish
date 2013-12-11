@@ -22,8 +22,8 @@ from sklearn.qda import QDA
 # male => 1
 
 # load data
-training = np.genfromtxt("training_clean.csv", delimiter=",",skip_header=1)
-testing = np.genfromtxt("test_clean.csv", delimiter=",",skip_header=1)
+training = np.genfromtxt("training_data.csv", delimiter=",",skip_header=1)
+testing = np.genfromtxt("test_data.csv", delimiter=",",skip_header=1)
 
 # split into training and testing
 n, d = training.shape

@@ -18,5 +18,3 @@ with open(sys.argv[2], 'wb') as output:
   for line in content.splitlines():
     outsize += len(line) + 1
     output.write(line + '\n')
-
-print("Done. Saved %s bytes." % (len(content)-outsize))

@@ -4,6 +4,7 @@ ORIGINAL_TESTING='original_testing.csv'
 
 cat $TESTING > $ORIGINAL_TESTING
 
+python dos2unix.py $ORIGINAL_TESTING $ORIGINAL_TESTING
 python dos2unix.py $TRAINING $TRAINING
 python dos2unix.py $TESTING $TESTING
 

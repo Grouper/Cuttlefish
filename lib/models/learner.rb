@@ -1,12 +1,12 @@
 require 'ai4r'
 
 class Learner
-	attr_accessor :algorithm, :headers, :training, :test
+	attr_accessor :algorithm, :headers, :training, :testing
 
 	def initialize(args)
 		@headers 	= args[:headers]
 		@training	= args[:training]
-		@test			= args[:test]
+		@testing	= args[:testing]
 
 		puts "Args initialized in Learner for #{self.class}!"
 	end

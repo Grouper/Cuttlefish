@@ -28,9 +28,9 @@ for k=1:length(sigmas)
     best_indices = [];
     for i=1:20
         i
-        for j=1:10
+        %for j=1:10
             accuracies = zeros(3,1);
-            for p=1:3
+            for p=1:5
                 [trainingIndices, testingIndices] = crossValidation(size(training_data, 1));
                 %training_data = training_data(:,[1:10]);
                 train_data = training_data(trainingIndices,:);
@@ -38,30 +38,33 @@ for k=1:length(sigmas)
                 train_labels = training_labels(trainingIndices, :);
                 dev_labels = training_labels(testingIndices, :);
                 
-                male_feature = train_data(:, male_feature_indices(i));
-                female_feature = train_data(:, female_feature_indices(j));
+                feature = train_data(:, all_feature_indices(i));
+                %male_feature = train_data(:, male_feature_indices(i));
+                %female_feature = train_data(:, female_feature_indices(j));
 
+                feature_dev = dev_data(:, all_feature_indices(i));
+                %male_feature_dev = dev_data(:, male_feature_indices(i));
+                %female_feature_dev = dev_data(:, female_feature_indices(j));
 
-                male_feature_dev = dev_data(:, male_feature_indices(i));
-                female_feature_dev = dev_data(:, female_feature_indices(j));
-
-                proposal_train = [best_features_train, male_feature, female_feature];
-                proposal_dev = [best_features_dev, male_feature_dev, female_feature_dev];
+                proposal_train = [best_features_train, feature];
+                proposal_dev = [best_features_dev, feature_dev];
+                
                 svm = svmtrain(proposal_train, train_labels, 'kernel_function', 'rbf', 'rbf_sigma', sigmas(k), 'options', options);
                 result = svmclassify(svm, proposal_dev);
+             
                 accuracies(p) = computeAccuracy(result, dev_labels);
                 
             end
             mean_accuracy = mean(accuracies);
             if mean_accuracy > best_accuracy_so_far
-                   best_indices = [best_indices, male_feature_indices(i), female_feature_indices(j)];
-                   best_features_train = [best_features_train, male_feature, female_feature];
-                   best_features_dev = [best_features_dev, male_feature_dev, female_feature_dev];
+                   best_indices = [best_indices, all_feature_indices(i)];
+                   best_features_train = [best_features_train, feature];
+                   best_features_dev = [best_features_dev, feature_dev];
                    best_accuracy_so_far = mean_accuracy;
 
             end
 
-        end
+        %end
     end
     best_indices
     if best_accuracy_so_far > overall_best_acc

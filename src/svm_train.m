@@ -26,11 +26,13 @@ for k=1:length(sigmas)
     best_features_train = [];
     best_features_dev = [];
     best_indices = [];
-    for i=1:20
-        i
-        %for j=1:10
+    features_left = all_feature_indices;
+    for l=1:20
+        converged = true;
+        for i=1:length(features_left)
+            i
             accuracies = zeros(3,1);
-            for p=1:5
+            for p=1:3
                 [trainingIndices, testingIndices] = crossValidation(size(training_data, 1));
                 %training_data = training_data(:,[1:10]);
                 train_data = training_data(trainingIndices,:);
@@ -38,11 +40,11 @@ for k=1:length(sigmas)
                 train_labels = training_labels(trainingIndices, :);
                 dev_labels = training_labels(testingIndices, :);
                 
-                feature = train_data(:, all_feature_indices(i));
+                feature = train_data(:, features_left(i));
                 %male_feature = train_data(:, male_feature_indices(i));
                 %female_feature = train_data(:, female_feature_indices(j));
 
-                feature_dev = dev_data(:, all_feature_indices(i));
+                feature_dev = dev_data(:, features_left(i));
                 %male_feature_dev = dev_data(:, male_feature_indices(i));
                 %female_feature_dev = dev_data(:, female_feature_indices(j));
 
@@ -57,14 +59,25 @@ for k=1:length(sigmas)
             end
             mean_accuracy = mean(accuracies);
             if mean_accuracy > best_accuracy_so_far
-                   best_indices = [best_indices, all_feature_indices(i)];
-                   best_features_train = [best_features_train, feature];
-                   best_features_dev = [best_features_dev, feature_dev];
+                   %best_indices = [best_indices, all_feature_indices(i)];
+                   %best_features_train = [best_features_train, feature];
+                   %best_features_dev = [best_features_dev, feature_dev];
+                   index_to_add = i;
+                   feature_to_add = feature;
+                   feature_to_add_dev = feature_dev;
                    best_accuracy_so_far = mean_accuracy;
-
+                   converged = false;
             end
-
-        %end
+            
+        end
+        if converged
+           best_indices
+           break; 
+        end
+        best_indices = [best_indices, features_left(index_to_add)];
+        features_left(index_to_add) = [];
+        best_features_train = [best_features_train, feature_to_add];
+        best_features_dev = [best_features_dev, feature_to_add_dev];
     end
     best_indices
     if best_accuracy_so_far > overall_best_acc

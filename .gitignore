@@ -1,1 +1,8 @@
 solutions.csv
+.Python
+bin/
+build/
+include/
+lib/
+plots/
+*cleaned*.csv

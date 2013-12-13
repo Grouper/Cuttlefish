@@ -52,11 +52,11 @@ test=[]
 with open('test_data.csv', 'rU') as csvfile:
 	rowreader = csv.reader(csvfile, delimiter=',')
 	for row in rowreader:
-		test.append(row[1:11]+row[12:-1])
+		test.append(row)
 
 header=test[0]
-td=clean_data(test)
+td=clean_data([row[1:11]+row[12:-1] for row in test])
 
 print ','.join(header)+',members_became_friends'
 for i in range(0,len(td)):
-	print ','.join(test[i+1])+','+('FALSE' if best_model.predict(td[i])[0]==0 else 'TRUE')
+	print ','.join(test[i+1])+('FALSE' if best_model.predict(td[i])[0]==0 else 'TRUE')

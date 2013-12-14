@@ -4,7 +4,6 @@
 
 import glob, bunch, pickle, time
 import numpy as np
-
 from sklearn import cross_validation
 from sklearn.grid_search import GridSearchCV
 from sklearn.preprocessing import StandardScaler
@@ -71,47 +70,57 @@ def load_data(training_path, testing_path=None):
 		
 	return X, y, Xt, yt
 
-# Use cached parameter settings
+# Use cached parameter settings, if set to True
+# This will use the best estimated parameters from parameters/*.p if False
+# It will re-estimate parameters for each model and save them in parameter/*/p
 USE_CACHE = False
+
+# The test dataset to use, if set to None is will create
+# a 20% holdout set from the training data and use that. 
 TEST = 'test_data.csv'
 
 # Parameter estimation cross-validation folds
+# Slightly elevated bias but low variance c.f. http://www.cs.iastate.edu/~jtian/cs573/Papers/Kohavi-IJCAI-95.pdf
 folds = 10
+
+# Voting mean threshold.
 threshold = 0.5
 
 # Load the datasets
 X, y, Xt, yt  = load_data(training_path='training_data.csv', testing_path=TEST)
 
-# Class ditribution of testing data is same as training. 
+# Class ditribution of testing data is same as training so use stratified folds.
 kfold = cross_validation.StratifiedKFold (y, n_folds=folds)
 
 # TODO: This will create a biased estimator and should be run per-fold of CV instead.
+# TODO: Change classifiers to Pipelines with StandardScalar running first.
 standard = StandardScaler().fit(X)
 X  = standard.transform(X)
 Xt = standard.transform(Xt)
 
 # Perform feature reduction
+# _* features are the most imporant, assume they are graph related. 
 # idx = univariate_feature_selector(X, y, percentile=20)
 # X  = X[:, idx]
 # Xt = Xt[:, idx]
 
-# Models
+# Models, use naive bayes as a base line because it's fast. 
 models = bunch.Bunch({
-	# 'naive'    : GaussianNB(),
-	# 'knn'      : KNeighborsClassifier(),
-	# 'logistic' : LogisticRegression(),
-	# 'pasagg'   : PassiveAggressiveClassifier(),	
-	# 'logreg'   : LogisticRegression(),
-	# 'sgd'      : SGDClassifier(),
-	# 'lsvc'     : LinearSVC(),
-	# 'dtc'      : DecisionTreeClassifier(),
-	# 'ada'      : AdaBoostClassifier(),
-	# 'gbc'      : GradientBoostingClassifier(),
+	'naive'    : GaussianNB(),
+	'knn'      : KNeighborsClassifier(),
+	'logistic' : LogisticRegression(),
+	'pasagg'   : PassiveAggressiveClassifier(),	
+	'logreg'   : LogisticRegression(),
+	'sgd'      : SGDClassifier(),
+	'lsvc'     : LinearSVC(),
+	'dtc'      : DecisionTreeClassifier(),
+	'ada'      : AdaBoostClassifier(),
+	'gbc'      : GradientBoostingClassifier(),
 	'randf'    : RandomForestClassifier(),
-	# 'svc'      : SVC(),
+	'svc'      : SVC(),
 })
 
-# Parameters grids
+# Parameters grids for estimation.
 parameters = bunch.Bunch({
 	'knn' : {
 		'n_neighbors' : [25, 100, 200, 500], 
@@ -154,9 +163,9 @@ parameters = bunch.Bunch({
 		'loss' : ['deviance']
 	},
 	'randf' : {
-		#'max_features' : [1, 2, 3, 10], 
-		#'max_depth' : [3, 7, 15], 
-		'n_estimators' : [10000]                        	
+		'max_features' : [1, 2, 3, 10], 
+		'max_depth' : [3, 7, 15], 
+		'n_estimators' : [100, 100, 10000]                        	
 	},
 	'svc' : {
 		'kernel' : ['rbf', 'sigmoid'], 
@@ -171,18 +180,18 @@ parameters = bunch.Bunch({
 
 # Classifier pipeline
 classifiers = [
-	# ('naive', 	 GridSearchCV(cv=kfold, estimator=models.naive,    param_grid=parameters.naive,    n_jobs=-1)),
-	# ('knn', 	 GridSearchCV(cv=kfold, estimator=models.knn,      param_grid=parameters.knn,      n_jobs=-1)),
- # 	('logistic', GridSearchCV(cv=kfold, estimator=models.logistic, param_grid=parameters.logistic, n_jobs=-1)),
-	# ('pasagg',   GridSearchCV(cv=kfold, estimator=models.pasagg,   param_grid=parameters.pasagg,   n_jobs=-1)),
-	# ('logreg',   GridSearchCV(cv=kfold, estimator=models.logreg,   param_grid=parameters.logreg,   n_jobs=-1)),
-	# ('sgd',      GridSearchCV(cv=kfold, estimator=models.sgd,      param_grid=parameters.sgd,      n_jobs=-1)),
-	# ('lsvc',     GridSearchCV(cv=kfold, estimator=models.lsvc,     param_grid=parameters.lsvc,     n_jobs=-1)),
-	# ('dtc',      GridSearchCV(cv=kfold, estimator=models.dtc,      param_grid=parameters.dtc,      n_jobs=-1)),
-	# ('ada',      GridSearchCV(cv=kfold, estimator=models.ada,      param_grid=parameters.ada,      n_jobs=-1)),
-	# ('gbc',      GridSearchCV(cv=kfold, estimator=models.gbc,      param_grid=parameters.gbc,      n_jobs=-1)),
+	('naive', 	 GridSearchCV(cv=kfold, estimator=models.naive,    param_grid=parameters.naive,    n_jobs=-1)),
+	('knn', 	 GridSearchCV(cv=kfold, estimator=models.knn,      param_grid=parameters.knn,      n_jobs=-1)),
+ 	('logistic', GridSearchCV(cv=kfold, estimator=models.logistic, param_grid=parameters.logistic, n_jobs=-1)),
+	('pasagg',   GridSearchCV(cv=kfold, estimator=models.pasagg,   param_grid=parameters.pasagg,   n_jobs=-1)),
+	('logreg',   GridSearchCV(cv=kfold, estimator=models.logreg,   param_grid=parameters.logreg,   n_jobs=-1)),
+	('sgd',      GridSearchCV(cv=kfold, estimator=models.sgd,      param_grid=parameters.sgd,      n_jobs=-1)),
+	('lsvc',     GridSearchCV(cv=kfold, estimator=models.lsvc,     param_grid=parameters.lsvc,     n_jobs=-1)),
+	('dtc',      GridSearchCV(cv=kfold, estimator=models.dtc,      param_grid=parameters.dtc,      n_jobs=-1)),
+	('ada',      GridSearchCV(cv=kfold, estimator=models.ada,      param_grid=parameters.ada,      n_jobs=-1)),
+	('gbc',      GridSearchCV(cv=kfold, estimator=models.gbc,      param_grid=parameters.gbc,      n_jobs=-1)),
 	('randf',    GridSearchCV(cv=kfold, estimator=models.randf,    param_grid=parameters.randf,    n_jobs=-1)),
-	#('svc',      GridSearchCV(cv=kfold, estimator=models.svc,      param_grid=parameters.svc,      n_jobs=-1)),
+	('svc',      GridSearchCV(cv=kfold, estimator=models.svc,      param_grid=parameters.svc,      n_jobs=-1)),
 ]
 
 # Train and evaluate classifiers.
@@ -223,7 +232,7 @@ for name, clf in classifiers:
 
 # Check model stability over IQR.
 # import pylab
-# baseline_median = 0.567010309278
+# baseline_median = 0.56 # Naive bayes
 # pylab.figure()
 # pylab.plot([0, len(classifiers)+1], [baseline_median, baseline_median], ':k')
 # pylab.boxplot(test_scores)

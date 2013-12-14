@@ -24,12 +24,12 @@ module CsvIO
 	end
 
 	def normalize(data_set, n_args)
-		names = n_args[:name_cols]
+		convs = n_args[:conv_cols]
 		norms = n_args[:norm_cols]
 
 		data_set.transpose.each_with_index.collect do |row, i|
-			if names.include?(i)
-				convert_name(row, n_args)
+			if convs.include?(i)
+				convert(row, n_args)
 			else
 				row = row.collect(&:to_f)
 				norms.include?(i) ? normalize_row(row, n_args) : row
@@ -37,12 +37,18 @@ module CsvIO
 		end.transpose
 	end
 
-	def convert_name(row, n_args)
+	def convert(row, n_args)
+		mal_val = n_args[:max_range].to_f
+		fem_val = n_args[:min_range].to_f
+
 		row.collect do |s|
-			if s == "male"
-				n_args[:max_range].to_f
+			case s
+			when "male", "female"
+				s == "male" ? mal_val : fem_val
+			when "TRUE", "FALSE"
+				s == "TRUE" ? 1.0 : 0.0
 			else
-				n_args[:min_range].to_f
+				"FALSE"
 			end
 		end
 	end

@@ -20,35 +20,51 @@ csv = {
 	:testing =>  "./data/test_data.csv"
 }
 
-# Arguments for data normalization
-n_args = {
-	:name_cols => [0,11],
-	:norm_cols => [1,2,9,10,12,13,20,21],
-	:min_range => 5,
-	:max_range => 10
+# Arguments for data conversion / normalization
+nn_args = {
+	:conv_cols => [0,11,22],
+	:norm_cols => ((0..22).to_a - [0,11,22]),
+	:min_range => 0,
+	:max_range => 1
 }
 
 puts "\n[Loading > Parsing > Normalizing data sets.]"
 
-training_orig = CsvIO.load_data(csv[:training])
-testing_orig  = CsvIO.load_data(csv[:testing])
+testing_set  = CsvIO.load_data(csv[:testing])
 
-headers, training_norm = CsvIO.load_data(csv[:training], n_args)
-headers,  testing_norm = CsvIO.load_data(csv[:testing],  n_args)
+headers, training_nn = CsvIO.load_data(csv[:training], nn_args)
+headers,  testing_nn = CsvIO.load_data(csv[:testing],  nn_args)
 
-puts "Data has been parsed!\n\n"
+puts "Data has been loaded!\n\n"
 
-##########################
-# Instantiate Algorithms #
-##########################
+##############
+# Algorithms #
+##############
 
-id3_args = {
+# ID3 Decision Tree
+
+id3 = {
 	:training => csv[:training],
-	:testing  => testing_orig
+	:testing  => testing_set
 }
 
-decision_tree	= DecisionTree.new(id3_args)
+decision_tree	= DecisionTree.new(id3)
 decision_tree.solve
+
+# Neural Network Backward Propagation
+
+nn = {
+	:headers  => headers,
+	:training => training_nn,
+	:testing  => testing_nn,
+	:in 			=> (headers.size - 1),
+	:out 			=> 1
+}
+
+neural_net = NeuralNetwork.new(nn)
+neural_net.solve
+
+binding.pry
 
 puts "Algorithms has been processed!\n\n"
 

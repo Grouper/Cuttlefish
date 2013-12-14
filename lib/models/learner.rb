@@ -4,7 +4,7 @@ class Learner
 	attr_accessor :algorithm, :headers, :training, :testing
 
 	def initialize(args)
-		@headers 	= args[:headers]	|| "No headers needed."
+		@headers 	= args[:headers]	|| "N/A"
 		@training	= args[:training] || "N/A"
 		@testing	= args[:testing]	|| "N/A"
 	end
@@ -18,7 +18,7 @@ class Learner
 	private
 
 	def train
-		puts "No need to explicitly train algorithm!"
+		puts "No need to explicitly train for #{self.class}!"
 	end
 
 	def predict

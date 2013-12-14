@@ -4,7 +4,7 @@ class DecisionTree < Learner
 	def initialize(args)
 		super
 		@algorithm = setup_tree(training)
-		testing.shift
+		@headers   = testing.shift
 	end
 
 	def predict

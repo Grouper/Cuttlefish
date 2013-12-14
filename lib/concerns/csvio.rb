@@ -13,8 +13,10 @@ module CsvIO
 		return headers, data_set
 	end
 
-	def write_data
-		puts "Data is being written to CSV!"
+	def write_data(file, results)
+		CSV.open(file,'wb') do |csvfile|
+  		results.each { |r| csvfile << r }
+  	end
 	end
 
 	private

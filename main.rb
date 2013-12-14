@@ -43,12 +43,12 @@ puts "Data has been loaded!\n\n"
 
 # ID3 Decision Tree
 
-id3 = {
+dt = {
 	:training => csv[:training],
 	:testing  => testing_set
 }
 
-decision_tree	= DecisionTree.new(id3)
+decision_tree	= DecisionTree.new(dt)
 decision_tree.solve
 
 # Neural Network Backward Propagation
@@ -64,14 +64,21 @@ nn = {
 neural_net = NeuralNetwork.new(nn)
 neural_net.solve
 
-binding.pry
-
 puts "Algorithms has been processed!\n\n"
 
 #####################
 # Write Out Results #
 #####################
 
-# CsvIO.write_data
+csv_output = {
+	:dt => "testing_dt.csv",
+	:nn => "testing_nn.csv"
+}
 
-# puts "Data has been written!\n\n"
+CsvIO.write_data(
+	csv_output[:dt], decision_tree.testing)
+CsvIO.write_data(
+	csv_output[:nn],
+	(neural_net.testing).unshift(neural_net.headers))
+
+puts "Data has been written!\n\n"

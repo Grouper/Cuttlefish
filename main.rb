@@ -15,8 +15,10 @@ end
 ##############
 
 # Training data files
-tr_data = "training_data.csv"
-te_data = "test_data.csv"
+csv = {
+	:training => "./data/training_data.csv",
+	:testing =>  "./data/test_data.csv"
+}
 
 # Arguments for data normalization
 n_args = {
@@ -28,9 +30,11 @@ n_args = {
 
 puts "\n[Loading > Parsing > Normalizing data sets.]"
 
-# Load and prepare data for processing
-headers, training_data = CsvIO.prepare_data(tr_data, n_args)
-headers, testing_data  = CsvIO.prepare_data(te_data, n_args)
+training_orig = CsvIO.load_data(csv[:training])
+testing_orig  = CsvIO.load_data(csv[:testing])
+
+headers, training_norm = CsvIO.load_data(csv[:training], n_args)
+headers,  testing_norm = CsvIO.load_data(csv[:testing],  n_args)
 
 puts "Data has been parsed!\n\n"
 
@@ -38,8 +42,15 @@ puts "Data has been parsed!\n\n"
 # Instantiate Algorithms #
 ##########################
 
-# decision_tree	 =  DecisionTree.new({}).solve
-# neural_network = NeuralNetwork.new({}).solve
+id3_args = {
+	:training => csv[:training],
+	:testing  => testing_orig
+}
+
+decision_tree	= DecisionTree.new(id3_args)
+decision_tree.solve
+
+puts "Algorithms has been processed!\n\n"
 
 #####################
 # Write Out Results #

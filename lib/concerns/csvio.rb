@@ -3,9 +3,12 @@ require 'csv'
 module CsvIO
 	extend self
 
-	def prepare_data(csv_file, n_args)
-		headers, data_set	= load_data(csv_file)
-						 data_set = normalize(data_set, n_args)
+	def load_data(csv_file, n_args=nil)
+		data_set = read_from_csv(csv_file)
+		return data_set unless n_args
+
+		headers  = data_set.shift
+		data_set = normalize(data_set, n_args)
 
 		return headers, data_set
 	end
@@ -16,11 +19,8 @@ module CsvIO
 
 	private
 
-	def load_data(csv_file)
-		data_set = CSV.read("./data/#{csv_file}")
-	  headers  = data_set.shift
-	  
-	  return headers, data_set
+	def read_from_csv(csv_file)
+		CSV.read(csv_file.to_s)	  
 	end
 
 	def normalize(data_set, n_args)

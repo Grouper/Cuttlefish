@@ -4,11 +4,9 @@ class Learner
 	attr_accessor :algorithm, :headers, :training, :testing
 
 	def initialize(args)
-		@headers 	= args[:headers]
-		@training	= args[:training]
-		@testing	= args[:testing]
-
-		puts "Args initialized in Learner for #{self.class}!"
+		@headers 	= args[:headers]	|| "No headers needed."
+		@training	= args[:training] || "N/A"
+		@testing	= args[:testing]	|| "N/A"
 	end
 
 	def solve
@@ -20,11 +18,11 @@ class Learner
 	private
 
 	def train
-		puts "Train this #{self.class} algorithm!"
+		puts "No need to explicitly train algorithm!"
 	end
 
 	def predict
-		puts "Predict results for this #{self.class} algorithm!"
+		raise "Each subclass should implement its own prediction mechanism!"
 	end
 
 end

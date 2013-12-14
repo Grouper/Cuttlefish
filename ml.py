@@ -72,7 +72,7 @@ def load_data(training_path, testing_path=None):
 	return X, y, Xt, yt
 
 # Use cached parameter settings
-USE_CACHE = True
+USE_CACHE = False
 TEST = 'test_data.csv'
 
 # Parameter estimation cross-validation folds
@@ -97,18 +97,18 @@ Xt = standard.transform(Xt)
 
 # Models
 models = bunch.Bunch({
-	'naive'    : GaussianNB(),
-	'knn'      : KNeighborsClassifier(),
-	'logistic' : LogisticRegression(),
-	'pasagg'   : PassiveAggressiveClassifier(),	
-	'logreg'   : LogisticRegression(),
-	'sgd'      : SGDClassifier(),
-	'lsvc'     : LinearSVC(),
-	'dtc'      : DecisionTreeClassifier(),
-	'ada'      : AdaBoostClassifier(),
-	'gbc'      : GradientBoostingClassifier(),
+	# 'naive'    : GaussianNB(),
+	# 'knn'      : KNeighborsClassifier(),
+	# 'logistic' : LogisticRegression(),
+	# 'pasagg'   : PassiveAggressiveClassifier(),	
+	# 'logreg'   : LogisticRegression(),
+	# 'sgd'      : SGDClassifier(),
+	# 'lsvc'     : LinearSVC(),
+	# 'dtc'      : DecisionTreeClassifier(),
+	# 'ada'      : AdaBoostClassifier(),
+	# 'gbc'      : GradientBoostingClassifier(),
 	'randf'    : RandomForestClassifier(),
-	'svc'      : SVC(),
+	# 'svc'      : SVC(),
 })
 
 # Parameters grids
@@ -154,9 +154,9 @@ parameters = bunch.Bunch({
 		'loss' : ['deviance']
 	},
 	'randf' : {
-		'max_features' : [1, 2, 3], 
-		'max_depth' : [3, 7], 
-		'n_estimators' : [50, 100, 500, 1000, 10000]                        	
+		#'max_features' : [1, 2, 3, 10], 
+		#'max_depth' : [3, 7, 15], 
+		'n_estimators' : [10000]                        	
 	},
 	'svc' : {
 		'kernel' : ['rbf', 'sigmoid'], 
@@ -171,18 +171,18 @@ parameters = bunch.Bunch({
 
 # Classifier pipeline
 classifiers = [
-	('naive', 	 GridSearchCV(cv=kfold, estimator=models.naive,    param_grid=parameters.naive,    n_jobs=-1)),
-	('knn', 	 GridSearchCV(cv=kfold, estimator=models.knn,      param_grid=parameters.knn,      n_jobs=-1)),
- 	('logistic', GridSearchCV(cv=kfold, estimator=models.logistic, param_grid=parameters.logistic, n_jobs=-1)),
-	('pasagg',   GridSearchCV(cv=kfold, estimator=models.pasagg,   param_grid=parameters.pasagg,   n_jobs=-1)),
-	('logreg',   GridSearchCV(cv=kfold, estimator=models.logreg,   param_grid=parameters.logreg,   n_jobs=-1)),
-	('sgd',      GridSearchCV(cv=kfold, estimator=models.sgd,      param_grid=parameters.sgd,      n_jobs=-1)),
-	('lsvc',     GridSearchCV(cv=kfold, estimator=models.lsvc,     param_grid=parameters.lsvc,     n_jobs=-1)),
-	('dtc',      GridSearchCV(cv=kfold, estimator=models.dtc,      param_grid=parameters.dtc,      n_jobs=-1)),
-	('ada',      GridSearchCV(cv=kfold, estimator=models.ada,      param_grid=parameters.ada,      n_jobs=-1)),
-	('gbc',      GridSearchCV(cv=kfold, estimator=models.gbc,      param_grid=parameters.gbc,      n_jobs=-1)),
+	# ('naive', 	 GridSearchCV(cv=kfold, estimator=models.naive,    param_grid=parameters.naive,    n_jobs=-1)),
+	# ('knn', 	 GridSearchCV(cv=kfold, estimator=models.knn,      param_grid=parameters.knn,      n_jobs=-1)),
+ # 	('logistic', GridSearchCV(cv=kfold, estimator=models.logistic, param_grid=parameters.logistic, n_jobs=-1)),
+	# ('pasagg',   GridSearchCV(cv=kfold, estimator=models.pasagg,   param_grid=parameters.pasagg,   n_jobs=-1)),
+	# ('logreg',   GridSearchCV(cv=kfold, estimator=models.logreg,   param_grid=parameters.logreg,   n_jobs=-1)),
+	# ('sgd',      GridSearchCV(cv=kfold, estimator=models.sgd,      param_grid=parameters.sgd,      n_jobs=-1)),
+	# ('lsvc',     GridSearchCV(cv=kfold, estimator=models.lsvc,     param_grid=parameters.lsvc,     n_jobs=-1)),
+	# ('dtc',      GridSearchCV(cv=kfold, estimator=models.dtc,      param_grid=parameters.dtc,      n_jobs=-1)),
+	# ('ada',      GridSearchCV(cv=kfold, estimator=models.ada,      param_grid=parameters.ada,      n_jobs=-1)),
+	# ('gbc',      GridSearchCV(cv=kfold, estimator=models.gbc,      param_grid=parameters.gbc,      n_jobs=-1)),
 	('randf',    GridSearchCV(cv=kfold, estimator=models.randf,    param_grid=parameters.randf,    n_jobs=-1)),
-	('svc',      GridSearchCV(cv=kfold, estimator=models.svc,      param_grid=parameters.svc,      n_jobs=-1)),
+	#('svc',      GridSearchCV(cv=kfold, estimator=models.svc,      param_grid=parameters.svc,      n_jobs=-1)),
 ]
 
 # Train and evaluate classifiers.

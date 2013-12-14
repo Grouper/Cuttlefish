@@ -1,8 +1,10 @@
+load data
+load y
 pos = 0;
 count = 0;
 for i=1:size(data,1)
 %    if data(i,2)>=0 && data(i,4)>=0
-     if data(i,2) + data(i,4)<2
+     if data(i,2) + data(i,4)>=2
         if sum(data(i,[1,3]))/sum(data(i,[2,4]))~=0.5
             count = count+1;
             pred = sum(data(i,[1,3]))/sum(data(i,[2,4])) >= 0.5;

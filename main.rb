@@ -41,6 +41,9 @@ puts "Data has been loaded!\n\n"
 # Algorithms #
 ##############
 
+puts "[Initializing > Training Algorithms, Solve!]"
+
+
 # ID3 Decision Tree
 
 dt = {
@@ -70,6 +73,8 @@ puts "Algorithms has been processed!\n\n"
 # Write Out Results #
 #####################
 
+puts "[Writing data out to CSV files.]"
+
 csv_output = {
 	:dt => "testing_dt.csv",
 	:nn => "testing_nn.csv"
@@ -81,4 +86,4 @@ CsvIO.write_data(
 	csv_output[:nn],
 	(neural_net.testing).unshift(neural_net.headers))
 
-puts "Data has been written!\n\n"
+puts "Data has been written!\n\nEnd CuttleFish Program"

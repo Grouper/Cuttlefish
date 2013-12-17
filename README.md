@@ -4,6 +4,12 @@
                  \\\\\
 
 
+_We're proud to announce that [Rory MacQueen](https://github.com/rmacqueen) has won the Cuttlefish Challenge with 296 correct._
+
+_Rory, from now on all of your Groupers are on us. Plus we'll screen every one you go on using your fresh algorithm._
+
+_For everyone else, Rory's algorithm now has a target on it. If you can beat his score, you can join him as a life-long VIP._
+
 ## Cuttlefish Challenge
 
 At [Grouper Social Club](http://www.joingrouper.com/), we predict who you're going to get along with based on the content of your Facebook profile. Everyone who joins the club connects with Facebook. After our members go on a Grouper, we track whether or not they friend each other afterwards.

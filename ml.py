@@ -13,6 +13,7 @@ from sklearn.tree import DecisionTreeClassifier
 from sklearn.ensemble import RandomForestClassifier, AdaBoostClassifier, GradientBoostingClassifier
 from sklearn.naive_bayes import GaussianNB
 from sklearn.linear_model import SGDClassifier, LogisticRegression, PassiveAggressiveClassifier
+from sklearn.utils import shuffle
 
 def univariate_feature_selector(X, y, percentile=10):
 	""" Univariate Feature Selection """
@@ -163,12 +164,12 @@ parameters = bunch.Bunch({
 		'loss' : ['deviance']
 	},
 	'randf' : {
-		'max_features' : [1, 2, 3, 10], 
-		'max_depth' : [3, 7, 15], 
-		'n_estimators' : [100, 100, 10000]                        	
+		#'max_features' : [1, 2, 3, 10], 
+		#'max_depth' : [3, 7, 15], 
+		'n_estimators' : [5000]                        	
 	},
 	'svc' : {
-		'kernel' : ['rbf', 'sigmoid'], 
+		'kernel' : ['rbf'], 
 		'gamma' : np.logspace(-6, 6, 10), 
 		'C' : np.logspace(-6, 6, 10),
 	},
@@ -191,11 +192,12 @@ classifiers = [
 	('ada',      GridSearchCV(cv=kfold, estimator=models.ada,      param_grid=parameters.ada,      n_jobs=-1)),
 	('gbc',      GridSearchCV(cv=kfold, estimator=models.gbc,      param_grid=parameters.gbc,      n_jobs=-1)),
 	('randf',    GridSearchCV(cv=kfold, estimator=models.randf,    param_grid=parameters.randf,    n_jobs=-1)),
-	('svc',      GridSearchCV(cv=kfold, estimator=models.svc,      param_grid=parameters.svc,      n_jobs=-1)),
+	#('svc',      GridSearchCV(cv=kfold, estimator=models.svc,      param_grid=parameters.svc,      n_jobs=-1)),
 ]
 
 # Train and evaluate classifiers.
 test_scores = []
+state = 0
 for name, clf in classifiers:
 	
 	if USE_CACHE:
@@ -215,6 +217,9 @@ for name, clf in classifiers:
 		#print parameters
 		pickle.dump(parameters, open('parameters/{name}.p'.format(name=name), mode='wb'))
 	
+	X, y = shuffle(X.copy(), y.copy(), random_state=state)
+	state = state + 1
+	kfold = cross_validation.StratifiedKFold (y, n_folds=folds)
 	scores = cross_validation.cross_val_score(est, X, y, cv=folds)
 	print "model: {name}\ttime: {time:2.2f}  mean: {mean:.2f} +/- {std:.2f}.".format(name=name, time=int(time_end-time_start), mean=np.mean(scores), std=scores.std())
 	test_scores.append(scores)

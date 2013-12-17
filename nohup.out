@@ -1,0 +1,14 @@
+model: randf	time: 410.00  mean: 0.58 +/- 0.02.
+[238, 261]
+model: naive	time: 0.00  mean: 0.56 +/- 0.03.
+model: knn	time: 25.00  mean: 0.56 +/- 0.02.
+model: logistic	time: 0.00  mean: 0.57 +/- 0.04.
+model: pasagg	time: 5.00  mean: 0.56 +/- 0.04.
+model: logreg	time: 4.00  mean: 0.57 +/- 0.03.
+model: sgd	time: 4.00  mean: 0.57 +/- 0.01.
+model: lsvc	time: 26.00  mean: 0.57 +/- 0.02.
+model: dtc	time: 2.00  mean: 0.55 +/- 0.02.
+model: ada	time: 481.00  mean: 0.56 +/- 0.02.
+model: gbc	time: 175.00  mean: 0.56 +/- 0.02.
+model: randf	time: 586.00  mean: 0.57 +/- 0.02.
+[253, 246]

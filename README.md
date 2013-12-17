@@ -4,7 +4,7 @@
                  \\\\\
 
 
-_We're proud to announce that [Rory MacQueen](https://github.com/rmacqueen) has won the Cuttlefish Challenge with 296 correct._
+_We're proud to announce that [Rory MacQueen](https://github.com/rmacqueen) has won the Cuttlefish Challenge with 296 correct predictions._
 
 _Rory, from now on all of your Groupers are on us. Plus we'll screen every one you go on using your fresh algorithm._
 

@@ -8,7 +8,7 @@ _We're proud to announce that [Rory MacQueen](https://github.com/rmacqueen) has 
 
 _Rory, from now on all of your Groupers are on us. Plus we'll screen every one you go on using your fresh algorithm._
 
-_For everyone else, Rory's algorithm now has a target on it. If you can beat his score, you can join him as a life-long VIP._
+_For everyone else, Rory's algorithm now has a target on it. If you can beat his score, you can join him as a lifelong VIP._
 
 ## Cuttlefish Challenge
 
